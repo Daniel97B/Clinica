@@ -8,26 +8,33 @@ use Illuminate\Support\Facades\DB;
 
 class ConsultoriosController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-    if (auth()->user()->rol !="Administrador" && auth()->user()->rol !="secretaria"){
-    return redirect('Inicio');
-    
-     }
-    $consultorios=Consultorios::all();
-    return view('modulos.Consultorios')->with('consultorios',$consultorios);
+        if (auth()->user()->rol != "Administrador" && auth()->user()->rol != "secretaria") {
+            return redirect('Inicio');
+        }
+        $consultorios = Consultorios::all();
+        return view('modulos.Consultorios')->with('consultorios', $consultorios);
     }
+
+
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function create()
     {
         //
@@ -41,8 +48,8 @@ class ConsultoriosController extends Controller
      */
     public function store(Request $request)
     {
-     Consultorios::create(['consultorio'=> request('consultorio')]);
-     return redirect ('Consultorios');
+        Consultorios::create(['consultorio' => request('consultorio')]);
+        return redirect('Consultorios');
     }
 
 

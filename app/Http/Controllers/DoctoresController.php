@@ -6,8 +6,8 @@ use App\Models\Doctores;
 use Illuminate\Http\Request;
 use App\Models\Consultorios;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\DB;
 
 class DoctoresController extends Controller
 {
@@ -15,17 +15,22 @@ class DoctoresController extends Controller
     {
         $this->middleware('auth');
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-    if (auth()->user()->rol !="Administrador" && auth()->user()->rol !="secretaria")
-    {
-    return redirect('Inicio');
+        if (auth()->user()->rol != "Administrador" && auth()->user()->rol != "secretaria") {
+            return redirect('Inicio');
+        }
+        $consultorios = Consultorios::all();
+        $doctores = Doctores::all();
+        return view('modulos.Doctores', compact('consultorios', 'doctores'));
     }
 
-    $consultorios= Consultorios::all();
-    $doctores=Doctores::all();
-    return view('modulos.Doctores', compact ('consultorios','doctores'));
-    }
 
 
     /**
@@ -44,16 +49,15 @@ class DoctoresController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
     public function store(Request $request)
     {
-        $datos =request()->validate([
-            'name'=>['required'],
-            'sexo'=>['required'],
-            'id_consultorio'=>['required'],
-            'password'=>['required', 'string','min:3'],
-            'email'=>['required', 'string','email','unique:users']
- 
+        $datos = request()->validate([
+            'name' => ['required'],
+            'sexo' => ['required'],
+            'id_consultorio' => ['required'],
+            'password' => ['required', 'string', 'min:3'],
+            'email' => ['required', 'string', 'email', 'unique:users']
+
         ]);
         Doctores::create ([
             'name'=>$datos['name'],
@@ -64,11 +68,12 @@ class DoctoresController extends Controller
             'telefono'=>'',
             'rol'=>'Doctor',
             'password'=>Hash::make($datos['password'])
- 
+
         ]);
         return redirect('Doctores')->with('registrado','Si');
+
     }
-    
+
     public function destroy($id)
     {
         DB::table('users')->whereId($id)->delete();
@@ -76,7 +81,7 @@ class DoctoresController extends Controller
     }
 
 
- 
+
     /**
      * Display the specified resource.
      *
@@ -117,4 +122,5 @@ class DoctoresController extends Controller
      * @param  \App\Models\Doctores  $doctores
      * @return \Illuminate\Http\Response
      */
+    
 }

@@ -7,9 +7,9 @@
     <div class="login-box-body">
         <p class="login-box-msg">Ingresar al sistema</p>
         <form method="post" action="{{ route('login') }}">
-        @csrf
+            @csrf
             <div class="form-group has-feedback">
-                <input type="email" name="email" class="form-control" require=""value="">
+                <input type="email" name="email" class="form-control" require="" value="">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">

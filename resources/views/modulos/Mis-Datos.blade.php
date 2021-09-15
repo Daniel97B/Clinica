@@ -8,7 +8,7 @@
  
     <div class="box">
         <div class="box-body">
-            <form method="post">
+            <form method="Post" action="{{ url('ActuDatos/'.$paciente[0]->id)}}">
  			@csrf
                   @method('put')
  
@@ -16,10 +16,10 @@
                     <div class="col-md-6 col-xs-12">
                     <h2>Nombre y Apellido</h2>
                     <input type="text" class="input-lg" name="name"
-                    value="{{auth()->user()->name}}">
+                    value="{{$paciente[0]->name}}">
                     <h2>Email</h2>
                     <input type="email" class="input-lg" name="email"
-                    value="{{auth()->user()->email}}">
+                    value="{{$paciente[0]->email}}">
                     @error('email')
                     <p class="alert alert-danger">El email ya existe</p>
  
@@ -32,11 +32,11 @@
                     <div class="col-md-6 col-xs-12">
                     <h2>Documento</h2>
                     <input type="text" class="input-lg" name="documento"
-                    value="{{auth()->user()->documento}}">
+                    value="{{$paciente[0]->documento}}">
  
                     <h2>Telefono</h2>
                     <input type="texto" class="input-lg" name="telefono"
-                    value="{{auth()->user()->telefono}}">
+                    value="{{$paciente[0]->telefono}}">
                     <br><br><br>
                     <button type="submit" class="btn btn-success">Guardar</button>
  
@@ -49,3 +49,4 @@
 </div>
  
 @endsection
+ 

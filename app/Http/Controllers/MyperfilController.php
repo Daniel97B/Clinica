@@ -1,36 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Inicio;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
-class InicioController extends Controller
+class MyperfilController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function DatosCreate()
-    {
-        return view('modulos.Mis-Datos');
-    }
-
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
     public function index()
     {
-        $inicio= Inicio::find(1);
-        return view('modulos.Inicio')->with('inicio',$inicio);
+        //
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -39,7 +26,7 @@ class InicioController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -56,10 +43,10 @@ class InicioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Inicio  $inicio
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Inicio $inicio)
+    public function show($id)
     {
         //
     }
@@ -67,36 +54,52 @@ class InicioController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Inicio  $inicio
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Inicio $inicio)
+    public function edit($id)
     {
-        //
+        $id = Auth::id();
+        $paciente = DB::select('select * from users where id='.$id);
+        //return view('modulos.Mis-Datos', compact($paciente));
+        return view('modulos.Mis-Datos',compact('paciente'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Inicio  $inicio
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Inicio $inicio)
-    {
-        
+    public function update(Request $request, $id)
+    {   
+        $paciente[0] = User::findOrFail($id);
+        $paciente[0]->name = $request->input('name');
+        $paciente[0]->email = $request->input('email');
+        $Contraseña=$request->input('password');
+
+        if ($Contraseña >= 9) {
+            $ContraseñaDB = Hash::make($Contraseña);
+            $paciente[0]->password= $ContraseñaDB;
+
+        }else{
+
+        }
+        $paciente[0]->documento = $request->input('documento');
+        $paciente[0]->telefono = $request->input('telefono');
+        $paciente[0]->save();
+        return redirect('Mis-Datos/{id}');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Inicio  $inicio
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Inicio $inicio)
+    public function destroy($id)
     {
         //
     }
-
-    
 }
