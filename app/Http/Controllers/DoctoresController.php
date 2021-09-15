@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Consultorios;
 use App\Models\Doctores;
 use Illuminate\Http\Request;
-use App\Models\Consultorios;
-use Illuminate\Support\Facades\Hash;
-
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DoctoresController extends Controller
 {
@@ -30,8 +29,6 @@ class DoctoresController extends Controller
         $doctores = Doctores::all();
         return view('modulos.Doctores', compact('consultorios', 'doctores'));
     }
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -56,21 +53,21 @@ class DoctoresController extends Controller
             'sexo' => ['required'],
             'id_consultorio' => ['required'],
             'password' => ['required', 'string', 'min:3'],
-            'email' => ['required', 'string', 'email', 'unique:users']
+            'email' => ['required', 'string', 'email', 'unique:users'],
 
         ]);
-        Doctores::create ([
-            'name'=>$datos['name'],
-            'id_consultorio'=>$datos['id_consultorio'],
-            'email'=>$datos['email'],
-            'sexo'=> $datos['sexo'],
-            'documento'=>'',
-            'telefono'=>'',
-            'rol'=>'Doctor',
-            'password'=>Hash::make($datos['password'])
+        Doctores::create([
+            'name' => $datos['name'],
+            'id_consultorio' => $datos['id_consultorio'],
+            'email' => $datos['email'],
+            'sexo' => $datos['sexo'],
+            'documento' => '',
+            'telefono' => '',
+            'rol' => 'Doctor',
+            'password' => Hash::make($datos['password']),
 
         ]);
-        return redirect('Doctores')->with('registrado','Si');
+        return redirect('Doctores')->with('registrado', 'Si');
 
     }
 
@@ -79,8 +76,6 @@ class DoctoresController extends Controller
         DB::table('users')->whereId($id)->delete();
         return redirect('Doctores');
     }
-
-
 
     /**
      * Display the specified resource.
@@ -122,5 +117,5 @@ class DoctoresController extends Controller
      * @param  \App\Models\Doctores  $doctores
      * @return \Illuminate\Http\Response
      */
-    
+
 }

@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth;
+
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 class MyperfilController extends Controller
 {
@@ -26,7 +27,7 @@ class MyperfilController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -60,9 +61,9 @@ class MyperfilController extends Controller
     public function edit($id)
     {
         $id = Auth::id();
-        $paciente = DB::select('select * from users where id='.$id);
+        $paciente = DB::select('select * from users where id=' . $id);
         //return view('modulos.Mis-Datos', compact($paciente));
-        return view('modulos.Mis-Datos',compact('paciente'));
+        return view('modulos.Mis-Datos', compact('paciente'));
     }
 
     /**
@@ -73,17 +74,17 @@ class MyperfilController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
         $paciente[0] = User::findOrFail($id);
         $paciente[0]->name = $request->input('name');
         $paciente[0]->email = $request->input('email');
-        $Contraseña=$request->input('password');
+        $Contraseña = $request->input('password');
 
         if ($Contraseña >= 9) {
             $ContraseñaDB = Hash::make($Contraseña);
-            $paciente[0]->password= $ContraseñaDB;
+            $paciente[0]->password = $ContraseñaDB;
 
-        }else{
+        } else {
 
         }
         $paciente[0]->documento = $request->input('documento');

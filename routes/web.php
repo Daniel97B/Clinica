@@ -3,9 +3,9 @@
 use App\Http\Controllers\ConsultoriosController;
 use App\Http\Controllers\DoctoresController;
 use App\Http\Controllers\InicioController;
+use App\Http\Controllers\MyperfilController;
 use App\Http\Controllers\PacientesController;
 use App\Http\Controllers\selecionarcontroller;
-use App\Http\Controllers\MyperfilController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,3 +65,7 @@ Route::get('Eliminar-Paciente/{id}', [PacientesController::class, 'destroy']);
 Route::get('Mis-Datos/{id}', [MyperfilController::class, 'Edit']);
 
 Route::put('ActuDatos/{id}', [MyperfilController::class, 'Update']);
+
+Route::get('Editar-Inicio/{id}', [InicioController::class, 'Edit']);
+
+Route::put('actualizar-Inicio/{id}', [InicioController::class, 'update'])->name('update.inicio');

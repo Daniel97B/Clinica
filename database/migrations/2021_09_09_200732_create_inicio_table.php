@@ -22,7 +22,7 @@ class CreateInicioTable extends Migration
             $table->text('direccion');
             $table->text('telefono');
             $table->text('logo');
-
+            $table->timestamps();
         });
     }
 

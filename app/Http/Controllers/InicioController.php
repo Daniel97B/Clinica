@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+
 use App\Models\Inicio;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class InicioController extends Controller
 {
@@ -19,18 +18,18 @@ class InicioController extends Controller
         return view('modulos.Mis-Datos');
     }
 
-
     public function __construct()
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
-        $inicio= Inicio::find(1);
-        return view('modulos.Inicio')->with('inicio',$inicio);
+        $inicio = Inicio::find(1);
+        return view('modulos.Inicio')->with('inicio', $inicio);
+        $pacientes = DB::select('select * from users where rol= "Paciente"');
+        return view('modulos.Pacientes')->with('pacientes', $pacientes);
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -70,9 +69,10 @@ class InicioController extends Controller
      * @param  \App\Models\Inicio  $inicio
      * @return \Illuminate\Http\Response
      */
-    public function edit(Inicio $inicio)
+    public function edit(Inicio $id)
     {
-        //
+        $inicio = Inicio::find($id->id);
+        return view('modulos.Editar-Inicio')->with('inicio', $inicio);
     }
 
     /**
@@ -82,9 +82,17 @@ class InicioController extends Controller
      * @param  \App\Models\Inicio  $inicio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Inicio $inicio)
+    public function update(Request $request, $id)
     {
-        
+        $inicio[0] = Inicio::findOrFail($id);
+        $inicio[0]->dias = $request->input('dias');
+        $inicio[0]->horaInicio = $request->input("horaInicio");
+        $inicio[0]->horaFin = $request->input('horaFin');
+        $inicio[0]->direccion = $request->input('direccion');
+        $inicio[0]->telefono = $request->input('telefono');
+        $inicio[0]->email = $request->input('email');
+        $inicio[0]->saveOrFail();
+        return redirect('Inicio');
     }
 
     /**
@@ -98,5 +106,4 @@ class InicioController extends Controller
         //
     }
 
-    
 }
