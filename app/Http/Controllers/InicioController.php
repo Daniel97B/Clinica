@@ -91,7 +91,7 @@ class InicioController extends Controller
         $inicio[0]->direccion = $request->input('direccion');
         $inicio[0]->telefono = $request->input('telefono');
         $inicio[0]->email = $request->input('email');
-        $inicio[0]->saveOrFail();
+        $inicio[0]->save();
         return redirect('Inicio');
     }
 

@@ -168,6 +168,25 @@
     </script>
 
     @endif
+    @if(session('actualizadoD')=='Si')
+    <script type="text/javascript">
+        Swal.fire(
+            'Sus datos son validos',
+            '',
+            'success'
+        )
+    </script>
+
+    @elseif(session('actualizadoD')=='NO')
+    <script type="text/javascript">
+        Swal.fire(
+            'Su contraseña no es valida',
+            '',
+            'warning'
+        )
+    </script>
+    @endif
+
 
     <script type="text/javascript">
         $('.table').on('click', '.EliminarDoctor', function() {

@@ -80,17 +80,20 @@ class MyperfilController extends Controller
         $paciente[0]->email = $request->input('email');
         $Contraseña = $request->input('password');
 
-        if ($Contraseña >= 9) {
+        if (strlen($Contraseña) >= 9) {
             $ContraseñaDB = Hash::make($Contraseña);
             $paciente[0]->password = $ContraseñaDB;
-
+        } elseif (strlen($Contraseña) <= 0) {
+            $ContraseñaDB = Hash::make($Contraseña);
+            $paciente[0]->password = $ContraseñaDB;
         } else {
+            return redirect('Mis-Datos/{id}')->with('actualizadoD', 'NO');
 
-        }
+        };
         $paciente[0]->documento = $request->input('documento');
         $paciente[0]->telefono = $request->input('telefono');
         $paciente[0]->save();
-        return redirect('Mis-Datos/{id}');
+        return redirect('Mis-Datos/{id}')->with('actualizadoD', 'Si');
     }
 
     /**
